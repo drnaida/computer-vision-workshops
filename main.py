@@ -31,6 +31,7 @@ class SnakeGameClass():
         self.hFood, self.wFood, _ = self.imgFood.shape
         self.foodPoint = 0, 0
         self.randomFoodLocation()
+        self.score = 0
 
     def randomFoodLocation(self):
         self.foodPoint = random.randint(100, 1000), random.randint(100, 600)
@@ -52,6 +53,13 @@ class SnakeGameClass():
                 self.points.pop(i)
                 if self.currentLength < self.allowedLength:
                     break
+        # check if the snake ate the Food
+        rx, ry = self.foodPoint
+        if rx - self.wFood // 2 < cx < rx + self.wFood // 2 and \
+                ry - self.hFood // 2 < cy < ry + self.hFood // 2:
+            self.randomFoodLocation()
+            self.allowedLength += 50
+            self.score += 1
 
         # Draw snake
         if self.points:
